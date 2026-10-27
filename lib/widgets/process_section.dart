@@ -95,7 +95,7 @@ class ProcessSection extends StatelessWidget {
                 // 4 Horizontal Steps
                 if (isDesktop)
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(steps.length, (index) {
                       return Expanded(
                         child: Padding(
@@ -112,7 +112,7 @@ class ProcessSection extends StatelessWidget {
                   Column(
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: _buildStepCard(steps[0])),
                           const SizedBox(width: 16),
@@ -121,7 +121,7 @@ class ProcessSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: _buildStepCard(steps[2])),
                           const SizedBox(width: 16),

@@ -108,7 +108,7 @@ class SolutionsSection extends StatelessWidget {
                   Column(
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: FadeSlideIn(delay: const Duration(milliseconds: 100), child: _buildSolutionCard(solutions[0]))),
                           const SizedBox(width: 20),
@@ -119,7 +119,7 @@ class SolutionsSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: FadeSlideIn(delay: const Duration(milliseconds: 150), child: _buildSolutionCard(solutions[3]))),
                           const SizedBox(width: 20),
@@ -134,7 +134,7 @@ class SolutionsSection extends StatelessWidget {
                   Column(
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: _buildSolutionCard(solutions[0])),
                           const SizedBox(width: 16),
@@ -143,7 +143,7 @@ class SolutionsSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: _buildSolutionCard(solutions[2])),
                           const SizedBox(width: 16),
@@ -152,7 +152,7 @@ class SolutionsSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: _buildSolutionCard(solutions[4])),
                           const SizedBox(width: 16),
@@ -255,13 +255,15 @@ class _InteractiveSolutionCardState extends State<_InteractiveSolutionCard> {
               ),
               const SizedBox(height: 24),
               Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    widget.data.actionText,
-                    style: AppTextStyles.labelMd(
-                      color: AppColors.secondary,
-                      fontWeight: FontWeight.w700,
+                  Flexible(
+                    child: Text(
+                      widget.data.actionText,
+                      style: AppTextStyles.labelMd(
+                        color: AppColors.secondary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 6),

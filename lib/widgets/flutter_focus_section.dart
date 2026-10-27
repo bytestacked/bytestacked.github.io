@@ -95,7 +95,7 @@ class FlutterFocusSection extends StatelessWidget {
 
                     if (isDesktop) {
                       return Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: List.generate(pillars.length, (index) {
                           return Expanded(
                             child: Padding(
@@ -112,7 +112,7 @@ class FlutterFocusSection extends StatelessWidget {
                       return Column(
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(child: _buildPillarCard(pillars[0])),
                               const SizedBox(width: 16),
@@ -121,7 +121,7 @@ class FlutterFocusSection extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(child: _buildPillarCard(pillars[2])),
                               const SizedBox(width: 16),

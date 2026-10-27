@@ -72,7 +72,7 @@ class TechAndModelsSection extends StatelessWidget {
                 // 3 Engagement Models
                 if (isDesktop)
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(child: FadeSlideIn(delay: const Duration(milliseconds: 100), child: _buildModel1())),
                       const SizedBox(width: 20),

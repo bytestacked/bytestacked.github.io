@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class FadeSlideIn extends StatefulWidget {
@@ -22,6 +23,7 @@ class _FadeSlideInState extends State<FadeSlideIn> with SingleTickerProviderStat
   late AnimationController _controller;
   late Animation<double> _opacity;
   late Animation<Offset> _slide;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -47,7 +49,7 @@ class _FadeSlideInState extends State<FadeSlideIn> with SingleTickerProviderStat
     if (widget.delay == Duration.zero) {
       _controller.forward();
     } else {
-      Future.delayed(widget.delay, () {
+      _timer = Timer(widget.delay, () {
         if (mounted) {
           _controller.forward();
         }
@@ -57,6 +59,7 @@ class _FadeSlideInState extends State<FadeSlideIn> with SingleTickerProviderStat
 
   @override
   void dispose() {
+    _timer?.cancel();
     _controller.dispose();
     super.dispose();
   }

@@ -388,8 +388,11 @@ class _ContactSectionState extends State<ContactSection> {
           ],
 
           // Footer & Submit Button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 16,
+            runSpacing: 12,
             children: [
               Text(
                 'Strict NDA confidentiality assured.',

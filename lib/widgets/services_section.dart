@@ -180,7 +180,7 @@ class ServicesSection extends StatelessWidget {
       return Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: FadeSlideIn(delay: const Duration(milliseconds: 100), child: _buildServiceCard(services[0]))),
               const SizedBox(width: 20),
@@ -191,7 +191,7 @@ class ServicesSection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: FadeSlideIn(delay: const Duration(milliseconds: 150), child: _buildServiceCard(services[3]))),
               const SizedBox(width: 20),
@@ -206,7 +206,7 @@ class ServicesSection extends StatelessWidget {
       return Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: _buildServiceCard(services[0])),
               const SizedBox(width: 20),
@@ -215,7 +215,7 @@ class ServicesSection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: _buildServiceCard(services[2])),
               const SizedBox(width: 20),
@@ -224,7 +224,7 @@ class ServicesSection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: _buildServiceCard(services[4])),
               const SizedBox(width: 20),
