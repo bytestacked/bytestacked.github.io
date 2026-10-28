@@ -32,6 +32,7 @@ class DesignMeetsCodeSection extends StatelessWidget {
                         flex: 5,
                         child: FadeSlideIn(
                           delay: const Duration(milliseconds: 100),
+                          offset: const Offset(-40, 0),
                           child: _buildImageCard(),
                         ),
                       ),
@@ -41,6 +42,7 @@ class DesignMeetsCodeSection extends StatelessWidget {
                         flex: 7,
                         child: FadeSlideIn(
                           delay: const Duration(milliseconds: 200),
+                          offset: const Offset(40, 0),
                           child: _buildDetailsContent(isDesktop: true),
                         ),
                       ),

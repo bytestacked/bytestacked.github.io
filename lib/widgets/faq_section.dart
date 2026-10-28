@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
+import 'fade_slide_in.dart';
 
 class FaqSection extends StatefulWidget {
   final Function(String section) onContactTap;
@@ -60,7 +61,10 @@ class _FaqSectionState extends State<FaqSection> {
                       // Left Column
                       Expanded(
                         flex: 5,
-                        child: _buildLeftInfo(),
+                        child: FadeSlideIn(
+                          offset: const Offset(-28, 0),
+                          child: _buildLeftInfo(),
+                        ),
                       ),
                       const SizedBox(width: 48),
                       // Right Column (Accordion)
@@ -73,7 +77,9 @@ class _FaqSectionState extends State<FaqSection> {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildLeftInfo(),
+                      FadeSlideIn(
+                        child: _buildLeftInfo(),
+                      ),
                       const SizedBox(height: 36),
                       _buildAccordionList(),
                     ],
@@ -159,35 +165,39 @@ class _FaqSectionState extends State<FaqSection> {
         final isExpanded = _expandedIndex == index;
         final faq = _faqs[index];
 
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _expandedIndex = isExpanded ? null : index;
-                });
-              },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeInOut,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLowest,
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+        return FadeSlideIn(
+          delay: Duration(milliseconds: 80 * index),
+          offset: const Offset(0, 20),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              onEnter: (_) {},
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _expandedIndex = isExpanded ? null : index;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeInOut,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceContainerLowest,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.03),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -231,7 +241,8 @@ class _FaqSectionState extends State<FaqSection> {
               ),
             ),
           ),
-        );
+        ),
+      );
       }),
     );
   }

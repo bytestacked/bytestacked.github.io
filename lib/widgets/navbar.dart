@@ -7,12 +7,14 @@ class Navbar extends StatelessWidget {
   final Function(String section) onNavTap;
   final VoidCallback onMobileMenuToggle;
   final bool isMobileMenuOpen;
+  final String activeSection;
 
   const Navbar({
     super.key,
     required this.onNavTap,
     required this.onMobileMenuToggle,
     required this.isMobileMenuOpen,
+    this.activeSection = 'home',
   });
 
   @override
@@ -119,17 +121,41 @@ class Navbar extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _InteractiveNavLink(title: 'Home', onTap: () => onNavTap('home'), isActive: true),
+                          _InteractiveNavLink(
+                            title: 'Home',
+                            onTap: () => onNavTap('home'),
+                            isActive: activeSection == 'home',
+                          ),
                           const SizedBox(width: 28),
-                          _InteractiveNavLink(title: 'Services', onTap: () => onNavTap('services')),
+                          _InteractiveNavLink(
+                            title: 'Services',
+                            onTap: () => onNavTap('services'),
+                            isActive: activeSection == 'services',
+                          ),
                           const SizedBox(width: 28),
-                          _InteractiveNavLink(title: 'Solutions', onTap: () => onNavTap('solutions')),
+                          _InteractiveNavLink(
+                            title: 'Solutions',
+                            onTap: () => onNavTap('solutions'),
+                            isActive: activeSection == 'solutions',
+                          ),
                           const SizedBox(width: 28),
-                          _InteractiveNavLink(title: 'Our Work', onTap: () => onNavTap('flutter-engineering')),
+                          _InteractiveNavLink(
+                            title: 'Our Work',
+                            onTap: () => onNavTap('flutter-engineering'),
+                            isActive: activeSection == 'flutter-engineering',
+                          ),
                           const SizedBox(width: 28),
-                          _InteractiveNavLink(title: 'About', onTap: () => onNavTap('why')),
+                          _InteractiveNavLink(
+                            title: 'About',
+                            onTap: () => onNavTap('why'),
+                            isActive: activeSection == 'why',
+                          ),
                           const SizedBox(width: 28),
-                          _InteractiveNavLink(title: 'Contact', onTap: () => onNavTap('contact')),
+                          _InteractiveNavLink(
+                            title: 'Contact',
+                            onTap: () => onNavTap('contact'),
+                            isActive: activeSection == 'contact',
+                          ),
                         ],
                       ),
 
@@ -215,13 +241,29 @@ class _InteractiveNavLinkState extends State<_InteractiveNavLink> {
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
         onTap: widget.onTap,
-        child: AnimatedDefaultTextStyle(
-          duration: const Duration(milliseconds: 180),
-          style: AppTextStyles.labelMd(
-            color: isHighlighted ? AppColors.secondary : AppColors.onSurfaceVariant,
-            fontWeight: widget.isActive ? FontWeight.w700 : (_isHovered ? FontWeight.w600 : FontWeight.w500),
-          ),
-          child: Text(widget.title),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 180),
+              style: AppTextStyles.labelMd(
+                color: isHighlighted ? AppColors.secondary : AppColors.onSurfaceVariant,
+                fontWeight: widget.isActive ? FontWeight.w700 : (_isHovered ? FontWeight.w600 : FontWeight.w500),
+              ),
+              child: Text(widget.title),
+            ),
+            const SizedBox(height: 4),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 240),
+              curve: Curves.easeOutCubic,
+              width: widget.isActive ? 20 : (_isHovered ? 12 : 0),
+              height: 2,
+              decoration: BoxDecoration(
+                color: widget.isActive ? AppColors.secondary : AppColors.secondary.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -13,6 +13,7 @@ import 'widgets/tech_and_models_section.dart';
 import 'widgets/faq_section.dart';
 import 'widgets/contact_section.dart';
 import 'widgets/footer_section.dart';
+import 'widgets/fade_slide_in.dart';
 
 void main() {
   runApp(const BytestackedApp());
@@ -64,6 +65,59 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey _contactKey = GlobalKey();
 
   bool _isMobileMenuOpen = false;
+  String _activeSection = 'home';
+  bool _showScrollToTop = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (!mounted) return;
+    final offset = _scrollController.offset;
+    final showTop = offset > 360;
+    if (showTop != _showScrollToTop) {
+      setState(() {
+        _showScrollToTop = showTop;
+      });
+    }
+
+    String newSection = 'home';
+    final sectionKeys = [
+      MapEntry('contact', _contactKey),
+      MapEntry('faq', _faqKey),
+      MapEntry('tech', _techKey),
+      MapEntry('why', _whyKey),
+      MapEntry('process', _processKey),
+      MapEntry('solutions', _solutionsKey),
+      MapEntry('design', _designKey),
+      MapEntry('flutter-engineering', _flutterEngineeringKey),
+      MapEntry('services', _servicesKey),
+      MapEntry('home', _homeKey),
+    ];
+
+    for (final entry in sectionKeys) {
+      final ctx = entry.value.currentContext;
+      if (ctx != null) {
+        final box = ctx.findRenderObject() as RenderBox?;
+        if (box != null && box.hasSize) {
+          final pos = box.localToGlobal(Offset.zero);
+          if (pos.dy <= 200) {
+            newSection = entry.key;
+            break;
+          }
+        }
+      }
+    }
+
+    if (newSection != _activeSection) {
+      setState(() {
+        _activeSection = newSection;
+      });
+    }
+  }
 
   void _scrollToSection(String section) {
     setState(() {
@@ -115,8 +169,26 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Widget _buildSectionTransition() {
+    return Container(
+      height: 1,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.transparent,
+            AppColors.secondary.withValues(alpha: 0.18),
+            AppColors.primary.withValues(alpha: 0.08),
+            Colors.transparent,
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
@@ -146,66 +218,111 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
 
+                _buildSectionTransition(),
+
                 // Services Section
                 Container(
                   key: _servicesKey,
-                  child: const ServicesSection(),
+                  child: const FadeSlideIn(
+                    offset: Offset(0, 36),
+                    child: ServicesSection(),
+                  ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Specialized Flutter Engineering Showcase
                 Container(
                   key: _flutterEngineeringKey,
-                  child: FlutterFocusSection(
-                    onDiscussTap: _scrollToSection,
+                  child: FadeSlideIn(
+                    offset: const Offset(0, 36),
+                    child: FlutterFocusSection(
+                      onDiscussTap: _scrollToSection,
+                    ),
                   ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Design Meets Code Visual Break
                 Container(
                   key: _designKey,
-                  child: const DesignMeetsCodeSection(),
+                  child: const FadeSlideIn(
+                    offset: Offset(0, 36),
+                    child: DesignMeetsCodeSection(),
+                  ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Solutions Section
                 Container(
                   key: _solutionsKey,
-                  child: SolutionsSection(
-                    onExploreSolution: _scrollToSection,
+                  child: FadeSlideIn(
+                    offset: const Offset(0, 36),
+                    child: SolutionsSection(
+                      onExploreSolution: _scrollToSection,
+                    ),
                   ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Development Process Section
                 Container(
                   key: _processKey,
-                  child: const ProcessSection(),
+                  child: const FadeSlideIn(
+                    offset: Offset(0, 36),
+                    child: ProcessSection(),
+                  ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Why Bytestacked Section
                 Container(
                   key: _whyKey,
-                  child: const WhySection(),
+                  child: const FadeSlideIn(
+                    offset: Offset(0, 36),
+                    child: WhySection(),
+                  ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Technology Stack & Engagement Models Section
                 Container(
                   key: _techKey,
-                  child: TechAndModelsSection(
-                    onSelectModel: _scrollToSection,
+                  child: FadeSlideIn(
+                    offset: const Offset(0, 36),
+                    child: TechAndModelsSection(
+                      onSelectModel: _scrollToSection,
+                    ),
                   ),
                 ),
+
+                _buildSectionTransition(),
 
                 // FAQ Section
                 Container(
                   key: _faqKey,
-                  child: FaqSection(
-                    onContactTap: _scrollToSection,
+                  child: FadeSlideIn(
+                    offset: const Offset(0, 36),
+                    child: FaqSection(
+                      onContactTap: _scrollToSection,
+                    ),
                   ),
                 ),
+
+                _buildSectionTransition(),
 
                 // Contact Section
                 Container(
                   key: _contactKey,
-                  child: const ContactSection(),
+                  child: const FadeSlideIn(
+                    offset: Offset(0, 36),
+                    child: ContactSection(),
+                  ),
                 ),
 
                 // Footer Section
@@ -232,6 +349,31 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               isMobileMenuOpen: _isMobileMenuOpen,
+              activeSection: _activeSection,
+            ),
+          ),
+
+          // Floating Back to Top Button
+          Positioned(
+            right: 28,
+            bottom: isDesktop ? 28 : 74,
+            child: AnimatedScale(
+              scale: _showScrollToTop ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 240),
+              curve: Curves.easeOutBack,
+              child: AnimatedOpacity(
+                opacity: _showScrollToTop ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: _BackToTopButton(
+                  onTap: () {
+                    _scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 700),
+                      curve: Curves.easeInOutCubic,
+                    );
+                  },
+                ),
+              ),
             ),
           ),
 
@@ -363,6 +505,59 @@ class _HomePageState extends State<HomePage> {
               ).copyWith(fontSize: 11),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BackToTopButton extends StatefulWidget {
+  final VoidCallback onTap;
+
+  const _BackToTopButton({required this.onTap});
+
+  @override
+  State<_BackToTopButton> createState() => _BackToTopButtonState();
+}
+
+class _BackToTopButtonState extends State<_BackToTopButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          transform: Matrix4.translationValues(0, _isHovered ? -3 : 0, 0),
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: _isHovered ? AppColors.secondary : AppColors.surface.withValues(alpha: 0.92),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: _isHovered ? AppColors.secondary : AppColors.outline.withValues(alpha: 0.2),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: _isHovered
+                    ? AppColors.secondary.withValues(alpha: 0.40)
+                    : Colors.black.withValues(alpha: 0.08),
+                blurRadius: _isHovered ? 16 : 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.keyboard_arrow_up_rounded,
+            size: 24,
+            color: _isHovered ? AppColors.onSecondary : AppColors.onSurface,
+          ),
         ),
       ),
     );
